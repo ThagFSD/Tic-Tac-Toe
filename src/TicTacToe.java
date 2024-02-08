@@ -3,15 +3,17 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class TicTacToe {
-    int boardWidth = 500;
-    int boradHeight = 550; // 50px for the text panel on top
+    // Main window
+    int boardWidth = 600;
+    int boradHeight = 650; // 50px for the text panel on top
 
     // jvswing lib class
     JFrame frame = new JFrame("Tic Tac Toe");
     JPanel textPanel = new JPanel();
     JLabel textLabel = new JLabel();
     JPanel boardPanel = new JPanel();
-    JButton[][] board = new JButton[3][3];
+    JButton[][] board = new JButton[4][4];
+    JButton replay = new JButton();
 
     String playerX = "X";
     String playerO = "O";
@@ -42,8 +44,8 @@ public class TicTacToe {
         textPanel.add(textLabel);
         frame.add(textPanel, BorderLayout.NORTH);
 
-        // board setting
-        boardPanel.setLayout(new GridLayout(3, 3));
+        //board setting
+        boardPanel.setLayout(new GridLayout(4, 4, 2, 2));
         boardPanel.setBackground(Color.darkGray);
         frame.add(boardPanel);
 
@@ -52,19 +54,20 @@ public class TicTacToe {
             for (int c = 0; c < 3; c++) {
                 JButton tile = new JButton();
                 board[r][c] = tile;
-                boardPanel.add(tile); 
+                boardPanel.add(tile);
 
                 tile.setForeground(Color.darkGray);
                 tile.setFont(new Font("Comic Sans MS", Font.BOLD, 120));
                 tile.setFocusable(false);
-
                 tile.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
                 tile.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
-                        if (gameOver)
-                            return;
                         JButton tile = (JButton) e.getSource();
+                        if (gameOver) {
+                            // playAgain();
+                            return;
+                        }
                         if (tile.getText() == "") {
                             tile.setText(currentPlayer);
                             turns++;
@@ -83,6 +86,30 @@ public class TicTacToe {
                 });
             }
         }
+        // Reset button
+        JButton resetButton = new JButton();
+        board[3][0] = resetButton;
+        boardPanel.add(resetButton);
+        resetButton.setText("Reset");
+        resetButton.setFont(new Font("Comic Sans MS", Font.BOLD, 40));
+        resetButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        resetButton.setFocusable(false);
+
+        // Action 
+        resetButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                // JButton resetButton = (JButton) e.getSource();
+                for (int r = 0; r < 3; r++) {
+                    for (int c = 0; c < 3; c++) {
+                        board[r][c].setText("");
+                        turns = 0;
+                        // boardPanel.add(resetButton);
+                    }
+                }
+                gameOver = false; // Reset the game over flag
+            }
+        });
+        
     }
 
     // Check winner
@@ -147,6 +174,7 @@ public class TicTacToe {
             gameOver = true;
 
         }
+
     }
 
     // Set the winner
@@ -160,4 +188,26 @@ public class TicTacToe {
         tile.setForeground(Color.ORANGE);
         textLabel.setText("Tie!");
     }
+
+    // void playAgain() {
+    //     int choice = JOptionPane.showConfirmDialog(
+    //             null,
+    //             "Do you wish to play again?",
+    //             (currentPlayer + " is the winner"),
+    //             JOptionPane.YES_NO_OPTION);
+    //     if (choice == JOptionPane.YES_OPTION) {
+    //         for (int r = 0; r < 3; r++) {
+    //             for (int c = 0; c < 3; c++) {
+    //                 board[r][c].setText("");
+    //                 turns = 0;
+    //                 // boardPanel.add(tile);
+    //             }
+    //         }
+    //         gameOver = false; // Reset the game over flag
+    //     } else {
+    //         System.out.println("Thanks for playing!");
+    //         System.exit(0); // Exit the game
+    //     }
+
+    // }
 }
