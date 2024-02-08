@@ -13,7 +13,7 @@ public class TicTacToe {
     JLabel textLabel = new JLabel();
     JPanel boardPanel = new JPanel();
     JButton[][] board = new JButton[4][4];
-    JButton replay = new JButton();
+    JButton replay = new JButton(); 
 
     String playerX = "X";
     String playerO = "O";
@@ -21,6 +21,8 @@ public class TicTacToe {
 
     boolean gameOver = false;
     int turns = 0;
+    int oScore = 0;
+    int xScore = 0;
 
     TicTacToe() {
         // Window setting
@@ -45,9 +47,10 @@ public class TicTacToe {
         frame.add(textPanel, BorderLayout.NORTH);
 
         //board setting
-        boardPanel.setLayout(new GridLayout(4, 4, 2, 2));
+        boardPanel.setLayout(new GridLayout(4, 3, 4, 4));
         boardPanel.setBackground(Color.darkGray);
         frame.add(boardPanel);
+
 
         // r = row, c = column
         for (int r = 0; r < 3; r++) {
@@ -61,6 +64,7 @@ public class TicTacToe {
                 tile.setFocusable(false);
                 tile.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
+                //When tile is pressed 
                 tile.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         JButton tile = (JButton) e.getSource();
@@ -95,7 +99,7 @@ public class TicTacToe {
         resetButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         resetButton.setFocusable(false);
 
-        // Action 
+        // When resetButton is pressed  
         resetButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 // JButton resetButton = (JButton) e.getSource();
@@ -109,7 +113,6 @@ public class TicTacToe {
                 gameOver = false; // Reset the game over flag
             }
         });
-        
     }
 
     // Check winner
@@ -181,13 +184,19 @@ public class TicTacToe {
     void setTheWinner(JButton tile) {
         tile.setForeground(Color.green);
         textLabel.setText(currentPlayer + " is the winner!");
+        if (textLabel.getText() == "X is the winner!"){
+            xScore++;
+        }
+        else if (textLabel.getText() == "O is the winner!"){
+            oScore++;
+        }
     }
 
     // Tie case
     void setTie(JButton tile) {
         tile.setForeground(Color.ORANGE);
         textLabel.setText("Tie!");
-    }
+    }   
 
     // void playAgain() {
     //     int choice = JOptionPane.showConfirmDialog(
