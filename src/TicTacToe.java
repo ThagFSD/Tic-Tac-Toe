@@ -7,7 +7,6 @@ public class TicTacToe {
     int boardWidth = 600;
     int boradHeight = 650; // 50px for the text panel on top
 
-    // jvswing lib class
     JFrame frame = new JFrame("Tic Tac Toe");
     JPanel textPanel = new JPanel();
     JLabel textLabel = new JLabel();
